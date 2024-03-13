@@ -3,7 +3,7 @@ import React from 'react'
 import Instructor from '../components/instructor/Instructor'
 import Student from '../components/student/Student'
 
-
+/** Returns component for dynamic pages */
 const ComponentSelector = ({ module, route }) => {
 
     if(module === 'instructor'){
