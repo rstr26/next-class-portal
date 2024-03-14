@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import React from 'react'
+import { TailwindUtils } from '../sharedFunctions'
 
 const Button = ({ text, size, inverted, icon, type }) => {
     const combinedClasses = clsx(
@@ -10,10 +11,7 @@ const Button = ({ text, size, inverted, icon, type }) => {
             inverted
         }, 
         {
-            'text-xs': !size || size === 'xs',
-            'text-sm': size === 'sm',
-            'text-md': size === 'md',
-            'text-lg': size === 'lg',
+            [TailwindUtils('size', size)]: true,
             'border-0': !inverted,
             'border-sm': inverted && (size === 'xs' || size === 'sm'),
             'border-md': inverted && size === 'md',

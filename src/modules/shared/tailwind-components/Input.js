@@ -1,23 +1,26 @@
 import React from 'react'
+import clsx from 'clsx'
+import { TailwindUtils } from '../sharedFunctions'
 
-const Input = ({ placeholder, label, size, type, max, min }) => {
+const Input = ({ placeholder, label, size, type, max, min, validation }) => {
 
-    const s = size || 'xs'
-    function utility(){
-        return ``
-    }
+    const baseClass = 'border-2 p-1 font-medium outline-none rounded-md'
+    const combinedClasses = clsx(
+        baseClass,
+        {
+            [TailwindUtils('size', size)]: true
+        }
+    )
 
-    console.log(s);
+    // `border-2 border-positive p-1 text-${s} font-medium outline-none rounded-md`
     return (
         <div className='flex-row'>
             <div>
-                {label && <span className={`text-${s} font-medium ml-1`}>{label}</span>}
+                {label && <span className={`text-xs font-medium ml-1`}>{label}</span>}
             </div>
             <div>
                 <input 
-                    className={
-                        `border-2 border-positive p-1 text-${s} font-medium outline-none rounded-md`
-                    }
+                    className={combinedClasses}
                     placeholder={placeholder}
                 />
             </div>
