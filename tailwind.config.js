@@ -17,7 +17,9 @@ module.exports = {
         negative: '#ef4444',
         negativeDark: '#dc2626',
         neutral: '#d4d4d4',
-        neutralDark: '#a3a3a3'
+        neutralDark: '#a3a3a3',
+        warning: '#fb923c',
+        warningDark: '#f97316'
       }
     },
   },
