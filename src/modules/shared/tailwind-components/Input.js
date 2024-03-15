@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { InputValidation, TailwindUtils } from '../sharedFunctions'
+import { UserPlusIcon } from '@heroicons/react/24/outline'
 
 const Input = ({ placeholder, label, size, type, max, min, validation, value, content }) => {
     
@@ -35,13 +36,14 @@ const Input = ({ placeholder, label, size, type, max, min, validation, value, co
             <div>
                 {label && <span className={labelCombinedClasses}>{label}</span>}
             </div>
-            <div>
+            <div className='relative flex'>
                 <input 
                     className={combinedClasses}
                     placeholder={placeholder}
                     onChange={(e) => setInputVal(e.target.value)}
                     value={value}
                 />
+                <UserPlusIcon className='w-5 h-5 absolute self-end left-2 top-1/2 transform -translate-y-1/2' />
             </div>
         </div>
     )
