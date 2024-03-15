@@ -1,27 +1,46 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import clsx from 'clsx'
-import { TailwindUtils } from '../sharedFunctions'
+import { InputValidation, TailwindUtils } from '../sharedFunctions'
 
-const Input = ({ placeholder, label, size, type, max, min, validation }) => {
+const Input = ({ placeholder, label, size, type, max, min, validation, value, content }) => {
+    
+    const [inputVal, setInputVal] = useState('')
 
+    const conditionObj = {
+        text: inputVal, 
+        negative: validation && validation.min,
+        warning: validation && validation.warn, 
+        positive: validation && validation.max
+    }
     const baseClass = 'border-2 p-1 font-medium outline-none rounded-md'
+    const labelCombinedClasses = clsx(
+        'ml-1 font-medium',
+        { [TailwindUtils('size', { size: size })]: true }
+    )
     const combinedClasses = clsx(
         baseClass,
         {
-            [TailwindUtils('size', size)]: true
+            [TailwindUtils('size', { size: size })]: true,
+            [TailwindUtils('border validation', { num: InputValidation(validation && validation.type, conditionObj) })]: validation && true
         }
     )
 
-    // `border-2 border-positive p-1 text-${s} font-medium outline-none rounded-md`
+   
+    useEffect(() => {
+        content && content(inputVal)
+    }, [inputVal])
+
     return (
         <div className='flex-row'>
             <div>
-                {label && <span className={`text-xs font-medium ml-1`}>{label}</span>}
+                {label && <span className={labelCombinedClasses}>{label}</span>}
             </div>
             <div>
                 <input 
                     className={combinedClasses}
                     placeholder={placeholder}
+                    onChange={(e) => setInputVal(e.target.value)}
+                    value={value}
                 />
             </div>
         </div>
