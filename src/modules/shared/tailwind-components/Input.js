@@ -81,4 +81,18 @@ Input.propTypes = {
     button: PropTypes.func
 }
 
+{/* <Input 
+    placeholder='Input password' 
+    label='Password' 
+    icon={<MagnifyingGlassIcon />} 
+    button={() => console.log('clicked')}
+    size='xs'
+    validation={{ type: 'strength', min: 3, warn: 10 }}
+    content={(t) => setInput(t)}
+    max={20}
+    min={0}
+    type='text'
+    value={input}
+/> */}
+
 export default Input
