@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import React, { useEffect } from 'react'
 import { TailwindUtils } from '../sharedFunctions'
+import PropTypes from 'prop-types'
 
 const Button = ({ text, size, inverted, icon, type, onClick }) => {
     const combinedClasses = clsx(
@@ -31,6 +32,15 @@ const Button = ({ text, size, inverted, icon, type, onClick }) => {
             {text}
         </button>
     )
+}
+
+Button.propTypes = {
+    text: PropTypes.string,
+    size: PropTypes.oneOf(['xs', 'sm', 'md', 'lg', 'xl']),
+    inverted: PropTypes.bool,
+    icon: PropTypes.element,
+    type: PropTypes.oneOf(['primary', 'secondary', 'positive', 'negative', 'neutral']),
+    onClick: PropTypes.func
 }
 
 export default Button

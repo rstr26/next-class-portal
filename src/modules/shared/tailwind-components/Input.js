@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { InputValidation, TailwindUtils } from '../sharedFunctions'
-import { UserPlusIcon } from '@heroicons/react/24/outline'
+import PropTypes from 'prop-types'
+
 
 const Input = ({ placeholder, label, size, type, max, min, validation, value, content, icon, button }) => {
     
@@ -59,6 +60,25 @@ const Input = ({ placeholder, label, size, type, max, min, validation, value, co
             </div>
         </div>
     )
+}
+
+Input.propTypes = {
+    placeholder: PropTypes.string,
+    label: PropTypes.string,
+    size: PropTypes.oneOf(['xs', 'md', 'lg', 'xl']),
+    type: PropTypes.oneOf(['text', 'number', 'password']),
+    max: PropTypes.number,
+    min: PropTypes.number,
+    validation: PropTypes.shape({
+        type: PropTypes.oneOf(['min chars', 'strength']),
+        min: PropTypes.number,
+        warn: PropTypes.number,
+        max: PropTypes.number
+    }),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    content: PropTypes.func,
+    icon: PropTypes.element,
+    button: PropTypes.func
 }
 
 export default Input

@@ -19,7 +19,7 @@ export default function Home() {
         <Input 
           placeholder='Input name' 
           size='xs' 
-          label='Name' 
+          // label='Name' 
           value={input} 
           content={(t) => setInput(t)}
         />
