@@ -20,6 +20,9 @@ module.exports = {
         neutralDark: '#a3a3a3',
         warning: '#fb923c',
         warningDark: '#f97316'
+      },
+      fontFamily: {
+        body: ['Nunito']
       }
     },
   },
