@@ -3,12 +3,12 @@ import React, { useEffect } from 'react'
 import { TailwindUtils } from '../sharedFunctions'
 import PropTypes from 'prop-types'
 
-const Button = ({ text, size, inverted, icon, type, onClick }) => {
+const Button = ({ text, size, inverted, icon, type, onClick, fluid, style }) => {
     const combinedClasses = clsx(
         {
-            'flex items-center rounded-md my-2 py-1 px-3 font-sm transition duration-300 text-white':
+            'flex justify-center items-center rounded-md my-2 py-1 px-3 font-sm transition duration-300 text-white':
             !inverted,
-            'flex items-center border-2 rounded-md my-2 py-1 px-3 font-sm transition duration-300': 
+            'flex justify-center items-center border-2 rounded-md my-2 py-1 px-3 font-sm transition duration-300': 
             inverted
         }, 
         {
@@ -16,7 +16,14 @@ const Button = ({ text, size, inverted, icon, type, onClick }) => {
             [TailwindUtils('inverted btn border', { inverted: inverted, size: size })]: true,
             [TailwindUtils('bg', { bg: type })]: !inverted && true,
             [TailwindUtils('hover bg', { bg: type })]: true,
+            'w-full': fluid,
             'hover:text-white': inverted
+        }
+    )
+    const iconClasses = clsx(
+        'w-5 h-5 mr-1',
+        {
+            'hidden': !icon
         }
     )
 
@@ -25,8 +32,9 @@ const Button = ({ text, size, inverted, icon, type, onClick }) => {
         <button 
             className={combinedClasses}
             onClick={onClick}
+            style={style}
         >
-            <div className='w-5 h-5 mr-1'>
+            <div className={iconClasses}>
                 {icon && icon}
             </div>
             {text}
@@ -40,7 +48,9 @@ Button.propTypes = {
     inverted: PropTypes.bool,
     icon: PropTypes.element,
     type: PropTypes.oneOf(['primary', 'secondary', 'positive', 'negative', 'neutral']),
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    fluid: PropTypes.bool,
+    style: PropTypes.object
 }
 
 export default Button
