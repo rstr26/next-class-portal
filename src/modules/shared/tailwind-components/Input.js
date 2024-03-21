@@ -52,6 +52,7 @@ const Input = ({ placeholder, label, size, type, max, min, validation, value, co
                     placeholder={placeholder}
                     onChange={(e) => setInputVal(e.target.value)}
                     value={value}
+                    type={type}
                 />
                 
                 <div className={iconCombinedClasses} onClick={() => { icon && button && button() }}>
