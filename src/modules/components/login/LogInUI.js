@@ -7,7 +7,7 @@ import React from 'react'
 const LogInUI = () => {
     return (
         <div className='flex'>
-            <div className='w-2/5 bg-primary h-screen flex justify-center items-center'>
+            <div className='w-full sm:w-2/5 bg-primary h-screen flex justify-center items-center'>
                 <form>
                     <h1 className='text-white font-bold text-4xl mb-2'>Login</h1>
                     <p className='text-xs text-white mb-6'>Enter your credentials below.</p>
@@ -28,7 +28,7 @@ const LogInUI = () => {
                 </form>
             </div>
 
-            <div className='w-3/5 relative flex justify-center'>
+            <div className='w-0 sm:w-3/5 sm:flex hidden relative justify-center'>
                 <div className='absolute top-28'>
                     <h1 
                         className='text-3xl font-bold font-body'
