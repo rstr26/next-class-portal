@@ -1,21 +1,37 @@
+import { Encrypt } from '@/modules/shared/sharedFunctions'
 import Button from '@/modules/shared/tailwind-components/Button'
 import Input from '@/modules/shared/tailwind-components/Input'
 import { ArrowLeftStartOnRectangleIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 
 const LogInUI = () => {
+
+    const ekey = process.env.NEXT_PUBLIC_ENCRYPT_KEY
+    const [credentials, setCredentials] = useState({ user: '', pw: '' })
+
+    async function submit(){
+
+    }
+
     return (
         <div className='flex'>
             <div className='w-full sm:w-2/5 bg-primary h-screen flex justify-center items-center'>
-                <form>
+                <form onSubmit={(e) => e.preventDefault()}>
                     <h1 className='text-white font-bold text-4xl mb-2'>Login</h1>
                     <p className='text-xs text-white mb-6'>Enter your credentials below.</p>
 
                     <p className='text-white'>Username</p>
-                    <input className='outline-none bg-transparent border-b-2 text-white text-xl' />
+                    <input 
+                        className='outline-none bg-transparent border-b-2 text-white text-xl' 
+                        onChange={(e) => setCredentials({...credentials, user: e.target.value})}
+                    />
                     <p className='text-white mt-5'>Password</p>
-                    <input className='outline-none bg-transparent border-b-2 text-white text-xl' type='password' />
+                    <input 
+                        className='outline-none bg-transparent border-b-2 text-white text-xl' 
+                        type='password' 
+                        onChange={(e) => setCredentials({...credentials, pw: Encrypt(e.target.value, ekey)})}
+                    />
 
                     <Button 
                         text='Login' 
@@ -23,6 +39,7 @@ const LogInUI = () => {
                         size='md' fluid 
                         style={{ marginTop: '20px' }}
                         icon={<ArrowLeftStartOnRectangleIcon />}
+                        onClick={() => console.log(credentials)}
                     />
                     <a className='text-white text-xs font-body underline' href=''>Sign up for an account.</a>
                 </form>
