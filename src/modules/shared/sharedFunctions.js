@@ -1,3 +1,6 @@
+import CryptoJS from "crypto-js"
+
+
 /** For <Input /> Validation UI
  * @param {string} type validation type '[max | min] chars' | '[max | min] num'
  * @param {object} condition object that contains condition values
@@ -16,6 +19,7 @@ export function InputValidation(type, condition){
         else return 3    
     }
 }
+
 
 /** For Tailwind Class Utils.
  * @param {string} type style type
@@ -95,4 +99,10 @@ export function TailwindUtils(type, values){
                 return 'border-negative'
         }
     }
+}
+
+
+/** Encrypt Text */
+export function Encrypt(text, key){
+    return CryptoJS.AES.encrypt(text, key).toString()
 }
