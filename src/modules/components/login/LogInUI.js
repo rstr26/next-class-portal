@@ -1,3 +1,4 @@
+import { Login } from '@/misc/sharedrequests'
 import { Encrypt } from '@/modules/shared/sharedFunctions'
 import Button from '@/modules/shared/tailwind-components/Button'
 import Input from '@/modules/shared/tailwind-components/Input'
@@ -11,7 +12,12 @@ const LogInUI = () => {
     const [credentials, setCredentials] = useState({ user: '', pw: '' })
 
     async function submit(){
+        const data = await Login(credentials)
 
+        if(!data.data.error){
+            console.log('successfully logged in');
+        }
+        else console.log('something went wrong');
     }
 
     return (
@@ -39,7 +45,7 @@ const LogInUI = () => {
                         size='md' fluid 
                         style={{ marginTop: '20px' }}
                         icon={<ArrowLeftStartOnRectangleIcon />}
-                        onClick={() => console.log(credentials)}
+                        onClick={submit}
                     />
                     <a className='text-white text-xs font-body underline' href=''>Sign up for an account.</a>
                 </form>
