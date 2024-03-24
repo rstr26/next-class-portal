@@ -1,5 +1,5 @@
 import { Login } from '@/misc/sharedRequests'
-import { Encrypt } from '@/modules/shared/sharedFunctions'
+import { Decrypt, Encrypt } from '@/modules/shared/sharedFunctions'
 import Button from '@/modules/shared/tailwind-components/Button'
 import { ArrowLeftStartOnRectangleIcon } from '@heroicons/react/24/outline'
 import Cookies from 'js-cookie'

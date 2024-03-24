@@ -106,3 +106,11 @@ export function TailwindUtils(type, values){
 export function Encrypt(text, key){
     return CryptoJS.AES.encrypt(text, key).toString()
 }
+
+/** Decrypt Text */
+export function Decrypt(text, key){
+    const bytes = CryptoJS.AES.decrypt(text, key)
+    const decrypted = bytes.toString(CryptoJS.enc.Utf8)
+
+    return decrypted
+}
