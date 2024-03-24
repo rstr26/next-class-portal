@@ -1,10 +1,11 @@
-import { Login } from '@/misc/sharedrequests'
+import { Login } from '@/misc/sharedRequests'
 import { Encrypt } from '@/modules/shared/sharedFunctions'
 import Button from '@/modules/shared/tailwind-components/Button'
-import Input from '@/modules/shared/tailwind-components/Input'
 import { ArrowLeftStartOnRectangleIcon } from '@heroicons/react/24/outline'
+import Cookies from 'js-cookie'
 import Image from 'next/image'
 import React, { useState } from 'react'
+import { Slide, toast, ToastContainer } from 'react-toastify'
 
 const LogInUI = () => {
 
@@ -15,7 +16,8 @@ const LogInUI = () => {
         const data = await Login(credentials)
 
         if(!data.data.error){
-            console.log('successfully logged in');
+            toast.success('Test')
+            Cookies.set('uinf', data.data.access)
         }
         else console.log('something went wrong');
     }
@@ -70,6 +72,20 @@ const LogInUI = () => {
                     priority
                 />
             </div>
+
+            <ToastContainer 
+                position="bottom-left"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+                transition={Slide}                
+            />
         </div>
     )
 }
