@@ -37,7 +37,9 @@ const Button = ({ text, size, inverted, icon, type, onClick, fluid, style }) => 
             <div className={iconClasses}>
                 {icon && icon}
             </div>
-            {text}
+            <div className='font-body'>
+                {text}
+            </div>
         </button>
     )
 }

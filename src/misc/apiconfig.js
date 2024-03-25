@@ -1,4 +1,6 @@
 const env = process.env.NEXT_PUBLIC_ENVIRONMENT
+const accesskey = process.env.NEXT_PUBLIC_ACCESS_TOKEN_KEY
+const jwt = require('jsonwebtoken')
 
 /** API base URL */
 export function ApiURL(){
@@ -35,4 +37,19 @@ export const config = {
     options: {
         trustServerCertificate: true
     }
+}
+
+
+/** Validate Access Token */
+export function VerifyToken(req, res){
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+
+    const verified = jwt.verify(token, accesskey, (err, user) => {
+        if(err) return { error: true }
+        
+        return { ...user, error: false }
+    })
+
+    return verified
 }

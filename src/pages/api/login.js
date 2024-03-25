@@ -31,6 +31,7 @@ export default function handler(req, res){
         const qry =
         `
         SELECT TOP 1
+        acc.uid,
         acc.password AS dbpw,
         info.first_name AS fname,
         info.last_name AS lname,
@@ -43,13 +44,13 @@ export default function handler(req, res){
         return new Promise((resolve, reject) => {
             ExecuteRecordsetQry(qry)
             .then(({ message, error }) => {
-                const { dbpw, fname, lname, role } = message.recordset[0]
+                const { dbpw, fname, lname, role, uid } = message.recordset[0]
                 const uipass = Decrypt(pw, process.env.NEXT_PUBLIC_ENCRYPT_KEY)
                 const dbpass = Decrypt(dbpw, process.env.NEXT_PUBLIC_ENCRYPT_KEY)
 
                 if(uipass === dbpass){
-                    const signed = jwt.sign({ user: { fname: fname, lname: lname, role: role } }, accesskey)
-                    res.send({ error: error, signed })
+                    const signed = jwt.sign({ user: { fname: fname, lname: lname, role: role, uid: uid } }, accesskey)
+                    res.send({ error: error, signed: signed, role: role })
                     resolve()
                 }
                 else{
