@@ -4,11 +4,13 @@ import Button from '@/modules/shared/tailwind-components/Button'
 import { ArrowLeftStartOnRectangleIcon } from '@heroicons/react/24/outline'
 import Cookies from 'js-cookie'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { Slide, toast, ToastContainer } from 'react-toastify'
 
 const LogInUI = () => {
 
+    const router = useRouter()
     const ekey = process.env.NEXT_PUBLIC_ENCRYPT_KEY
     const [credentials, setCredentials] = useState({ user: '', pw: '' })
 
@@ -17,7 +19,8 @@ const LogInUI = () => {
 
         if(!data.data.error){
             toast.success('Test')
-            Cookies.set('uinf', data.data.access)
+            Cookies.set('uinf', data.data.signed)
+            router.replace(`/${data.data.role}`)
         }
         else console.log('something went wrong');
     }
