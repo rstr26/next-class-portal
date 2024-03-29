@@ -49,7 +49,11 @@ export default function handler(req, res){
                 const dbpass = Decrypt(dbpw, process.env.NEXT_PUBLIC_ENCRYPT_KEY)
 
                 if(uipass === dbpass){
-                    const signed = jwt.sign({ user: { fname: fname, lname: lname, role: role, uid: uid } }, accesskey)
+                    const signed = jwt.sign(
+                        { user: { fname: fname, lname: lname, role: role, uid: uid } }, 
+                        accesskey, 
+                        { expiresIn: '15s' }
+                    )
                     res.send({ error: error, signed: signed, role: role })
                     resolve()
                 }
