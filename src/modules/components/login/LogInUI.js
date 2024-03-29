@@ -5,7 +5,7 @@ import { ArrowLeftStartOnRectangleIcon } from '@heroicons/react/24/outline'
 import Cookies from 'js-cookie'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Slide, toast, ToastContainer } from 'react-toastify'
 
 const LogInUI = () => {
@@ -13,16 +13,21 @@ const LogInUI = () => {
     const router = useRouter()
     const ekey = process.env.NEXT_PUBLIC_ENCRYPT_KEY
     const [credentials, setCredentials] = useState({ user: '', pw: '' })
+    const toastId = useRef(null)
 
     async function submit(){
         const data = await Login(credentials)
 
+        toastId.current = toast.loading('Logging in...')
         if(!data.data.error){
-            toast.success('Test')
+            toast.success('Login successful')
             Cookies.set('uinf', data.data.signed)
             router.replace(`/${data.data.role}`)
         }
-        else console.log('something went wrong');
+        else{
+            toast.error('Login failed.')
+        }
+        toast.done(toastId.current)
     }
 
     return (
@@ -75,20 +80,6 @@ const LogInUI = () => {
                     priority
                 />
             </div>
-
-            <ToastContainer 
-                position="bottom-left"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="dark"
-                transition={Slide}                
-            />
         </div>
     )
 }

@@ -11,8 +11,9 @@ export function ApiURL(){
 
 /** Header config for axios API request
  * @param {string} type json | media, default is json
+ * @param {string} token for token verification
  */
-export function HeaderConfig(type){
+export function HeaderConfig(type, token){
     let val = ''
 
     if(!type || type === 'json'){
@@ -23,7 +24,10 @@ export function HeaderConfig(type){
     }
 
     return {
-        'Content-Type': val
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': val
+        }
     }
 }
 
@@ -46,7 +50,10 @@ export function VerifyToken(req, res){
     const token = authHeader && authHeader.split(' ')[1]
 
     const verified = jwt.verify(token, accesskey, (err, user) => {
-        if(err) return { error: true }
+        if(err){
+            console.log(err.expiredAt);
+            return { error: true }
+        }
         
         return { ...user, error: false }
     })
