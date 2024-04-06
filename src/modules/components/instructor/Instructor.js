@@ -2,6 +2,7 @@ import useStore from '@/modules/shared/SharedState'
 import Button from '@/modules/shared/tailwind-components/Button'
 import React from 'react'
 import Cookies from 'js-cookie'
+import api from '@/api/interceptor'
 import axios from 'axios'
 const jwt = require('jsonwebtoken')
 
@@ -13,14 +14,13 @@ const Instructor = () => {
     const { userid, setUserId } = store
 
     async function verifytoken(){
-        // jwt.verify(token, tkey, (err, user) => {
-        //     if(err) console.log('error');
-
-        //     console.log(user);
-        // })
-
-        // console.log(jwt.sign({ name: 'rester' }), tkey);
-        await axios.post('http://localhost:3000/api/users/validate', null, { headers: { 'Authorization': `Bearer ${token}` } })
+        await api.post('/users/validate', null, { headers: { 'Authorization': `Bearer ${token}` } })
+        .then(res => console.log(res))
+        .catch(err => {
+            if(!err.response.status === 401){
+                console.log(err);
+            }
+        })
     }
 
     return (
