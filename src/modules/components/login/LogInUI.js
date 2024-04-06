@@ -1,4 +1,4 @@
-import { Login } from '@/misc/sharedRequests'
+import { Login } from '@/api/requests/sharedRequests'
 import { Decrypt, Encrypt } from '@/modules/shared/sharedFunctions'
 import Button from '@/modules/shared/tailwind-components/Button'
 import { ArrowLeftStartOnRectangleIcon } from '@heroicons/react/24/outline'

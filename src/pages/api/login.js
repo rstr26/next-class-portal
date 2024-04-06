@@ -1,4 +1,4 @@
-import { config } from '@/misc/apiconfig'
+import { config } from '@/api/apiconfig'
 import { Decrypt, Encrypt } from '@/modules/shared/sharedFunctions'
 const sql = require('mssql')
 const jwt = require('jsonwebtoken')

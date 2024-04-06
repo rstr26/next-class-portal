@@ -1,6 +1,4 @@
-import { VerifyToken } from '@/misc/apiconfig'
-
-const jwt = require('jsonwebtoken')
+import { VerifyToken } from '@/api/verifytoken';
 
 
 export default function handler(req, res) {
@@ -8,7 +6,12 @@ export default function handler(req, res) {
     // res.status(200).json({ name: user });
 
     if(user === 'test') login(req, res)
-    else if(user === 'validate') console.log(VerifyToken(req, res));
+    else if(user === 'validate'){
+        const { error, code } = VerifyToken(req)
+        if(error && code === 'tokexp'){
+            res.status(401)
+        }
+    }
 
     res.send({ error: false })
 }

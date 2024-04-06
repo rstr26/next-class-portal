@@ -1,11 +1,13 @@
 const env = process.env.NEXT_PUBLIC_ENVIRONMENT
-const accesskey = process.env.NEXT_PUBLIC_ACCESS_TOKEN_KEY
-const jwt = require('jsonwebtoken')
+
 
 /** API base URL */
 export function ApiURL(){
     if(env === 'PRODUCTION') return 'http://localhost:3000/api'
-    else return 'http://localhost:3000/api'
+
+    else if(env === 'STAGING') return 'http://localhost:3000/api'
+    
+    else return 'http://192.168.1.3:3000/api'
 }
 
 
@@ -41,22 +43,4 @@ export const config = {
     options: {
         trustServerCertificate: true
     }
-}
-
-
-/** Validate Access Token */
-export function VerifyToken(req, res){
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
-
-    const verified = jwt.verify(token, accesskey, (err, user) => {
-        if(err){
-            console.log(err.expiredAt);
-            return { error: true }
-        }
-        
-        return { ...user, error: false }
-    })
-
-    return verified
 }
