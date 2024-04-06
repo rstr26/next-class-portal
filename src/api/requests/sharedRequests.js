@@ -1,5 +1,5 @@
 import axios from "axios"
-import { ApiURL, HeaderConfig } from "./apiconfig"
+import { ApiURL, HeaderConfig } from "../apiconfig"
 
 const key = process.env.NEXT_PUBLIC_API_KEY
 let body = {}

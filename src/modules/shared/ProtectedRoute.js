@@ -10,7 +10,6 @@ const ProtectedRoute = ({ children }) => {
     return(
         <React.Fragment>
             {children}
-            <button onClick={() => setUserId('test 2')}>Click me</button>
         </React.Fragment>
     )
 }

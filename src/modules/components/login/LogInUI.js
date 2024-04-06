@@ -1,23 +1,33 @@
-import { Login } from '@/misc/sharedrequests'
-import { Encrypt } from '@/modules/shared/sharedFunctions'
+import { Login } from '@/api/requests/sharedRequests'
+import { Decrypt, Encrypt } from '@/modules/shared/sharedFunctions'
 import Button from '@/modules/shared/tailwind-components/Button'
-import Input from '@/modules/shared/tailwind-components/Input'
 import { ArrowLeftStartOnRectangleIcon } from '@heroicons/react/24/outline'
+import Cookies from 'js-cookie'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import { useRouter } from 'next/router'
+import React, { useRef, useState } from 'react'
+import { Slide, toast, ToastContainer } from 'react-toastify'
 
 const LogInUI = () => {
 
+    const router = useRouter()
     const ekey = process.env.NEXT_PUBLIC_ENCRYPT_KEY
     const [credentials, setCredentials] = useState({ user: '', pw: '' })
+    const toastId = useRef(null)
 
     async function submit(){
         const data = await Login(credentials)
 
+        toastId.current = toast.loading('Logging in...')
         if(!data.data.error){
-            console.log('successfully logged in');
+            toast.success('Login successful')
+            Cookies.set('uinf', data.data.signed)
+            router.replace(`/${data.data.role}`)
         }
-        else console.log('something went wrong');
+        else{
+            toast.error('Login failed.')
+        }
+        toast.done(toastId.current)
     }
 
     return (
