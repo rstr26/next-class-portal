@@ -16,9 +16,9 @@ const LogInUI = () => {
     const toastId = useRef(null)
 
     async function submit(){
+        toastId.current = toast.loading('Logging in...')
         const data = await Login(credentials)
 
-        toastId.current = toast.loading('Logging in...')
         if(!data.data.error){
             toast.success('Login successful')
             Cookies.set('uinf', data.data.signed)

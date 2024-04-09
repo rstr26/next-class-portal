@@ -17,7 +17,7 @@ api.interceptors.response.use(
 
 function handleExpiredToken(){
     console.log('entered expired handler');
-    // Object.keys(Cookies.get()).forEach(cookie => Cookies.remove(cookie))
+    Object.keys(Cookies.get()).forEach(cookie => Cookies.remove(cookie))
     // toast.info('Session expired, please login again.')
     window.alert('Session expired, please login again')
     window.location.href = '/'
