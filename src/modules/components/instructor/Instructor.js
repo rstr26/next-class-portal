@@ -3,32 +3,39 @@ import Button from '@/modules/shared/tailwind-components/Button'
 import React from 'react'
 import Cookies from 'js-cookie'
 import api from '@/api/interceptor'
-import axios from 'axios'
-const jwt = require('jsonwebtoken')
 
 const Instructor = () => {
 
     const store = useStore()
-    const token = Cookies.get('uinf') || ''
     const tkey = process.env.NEXT_PUBLIC_ACCESS_TOKEN_KEY || ''
     const { userid, setUserId } = store
 
-    async function verifytoken(){
-        await api.post('/users/validate', null, { headers: { 'Authorization': `Bearer ${token}` } })
+    // REQUEST
+    async function rtNotAllowed(){
+        const token = Cookies.get('uinf') || ''
+        await api.post('/users/rt', null, { headers: { 'Authorization': `Bearer ${token}` } })
         .then(res => console.log(res))
         .catch(err => {
-            if(!err.response.status === 401){
+            if(!err.response.status === 403){
                 console.log(err);
             }
         })
     }
 
+    async function rtAllowed(){
+
+    }
+
     return (
         <>
-            <div>Youre on Instructor Homepage {userid}</div>
+            <div>Youre on Homepage</div>
             <Button 
-                text='Click Me'
-                onClick={verifytoken}
+                text='test1'
+                onClick={rtNotAllowed}
+            />
+            <Button 
+                text='test2'
+                // onClick={}
             />
         </>
     )

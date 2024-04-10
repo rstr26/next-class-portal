@@ -4,10 +4,10 @@ const jwt = require('jsonwebtoken')
 /** Validate Access Token 
  * @param {object} req request object
 */
-export function VerifyToken(req){
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
+export function VerifyToken(auth){
+    const token = auth && auth.split(' ')[1]
 
+    // console.log('from custom function: ' + authHeader);
     const verified = jwt.verify(token, accesskey, (err, user) => {
         if(err){
             if(err.name === 'TokenExpiredError'){

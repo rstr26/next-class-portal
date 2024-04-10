@@ -7,10 +7,13 @@ export default function handler(req, res) {
 
     if(user === 'test') login(req, res)
     else if(user === 'validate'){
-        const { error, code } = VerifyToken(req)
-        if(error && code === 'tokexp'){
-            res.status(401)
-        }
+        // const { error, code } = VerifyToken(req)
+        // if(error && code === 'tokexp'){
+        //     res.status(403)
+        // }
+    }
+    else if(user === 'rt'){
+
     }
 
     res.send({ error: false })
