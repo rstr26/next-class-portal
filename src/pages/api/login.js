@@ -1,31 +1,16 @@
-import { config } from '@/api/apiconfig'
 import { Decrypt, Encrypt } from '@/modules/shared/sharedFunctions'
+import { ExecuteQry, ExecuteRecordsetQry, generateToken } from '.'
+import { NextResponse } from 'next/server'
 const sql = require('mssql')
 const jwt = require('jsonwebtoken')
 const apikey = process.env.NEXT_PUBLIC_API_KEY
 const accesskey = process.env.NEXT_PUBLIC_ACCESS_TOKEN_KEY
+const refreshkey = process.env.NEXT_PUBLIC_REFRESH_TOKEN_KEY
 
-
-export async function ExecuteRecordsetQry(qry){
-    return new Promise((resolve, reject) => {
-        let response = (e, m) => { return { error: e, message: m } }
-
-        sql.connect(config, (err) => {
-            if(err) reject(response(true, err))
-
-            const req = new sql.Request()
-
-            req.query(qry, (err, recset) => {
-                if(err) reject(response(true, err))
-
-                resolve(response(false, recset))
-            })
-        })
-    })
-}
 
 export default function handler(req, res){
     const { key, user, pw } = req.body
+    const response = NextResponse.next()
 
     if(key === apikey){
         const qry =
@@ -44,18 +29,33 @@ export default function handler(req, res){
         return new Promise((resolve, reject) => {
             ExecuteRecordsetQry(qry)
             .then(({ message, error }) => {
+                if(error){
+                    res.send({ error: true })
+                    reject()
+                }
+
                 const { dbpw, fname, lname, role, uid } = message.recordset[0]
                 const uipass = Decrypt(pw, process.env.NEXT_PUBLIC_ENCRYPT_KEY)
                 const dbpass = Decrypt(dbpw, process.env.NEXT_PUBLIC_ENCRYPT_KEY)
 
                 if(uipass === dbpass){
-                    const signed = jwt.sign(
-                        { user: { fname: fname, lname: lname, role: role, uid: uid } }, 
-                        accesskey, 
-                        { expiresIn: '15s' }
-                    )
-                    res.send({ error: error, signed: signed, role: role })
-                    resolve()
+                    const user = { user: { fname: fname, lname: lname, role: role, uid: uid } }
+                    const at = generateToken(user, '60s').at()
+                    const rt = generateToken(user).rt()
+                    const rtQry = `INSERT INTO refresh_tokens(token) VALUES('${rt}')`
+
+                    ExecuteQry(rtQry)
+                    .then(({ error }) => {
+                        const body = { error: error, signed: at, rt: rt, role: role }
+                        // response.cookies.set('uinf', at)
+                        res.send(body)
+                        resolve()
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        res.send({ error: true })
+                        reject()
+                    })
                 }
                 else{
                     res.send({ error: true })

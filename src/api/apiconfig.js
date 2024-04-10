@@ -1,4 +1,5 @@
 const env = process.env.NEXT_PUBLIC_ENVIRONMENT
+const key = process.env.NEXT_PUBLIC_API_KEY
 
 
 /** API base URL */
@@ -12,10 +13,10 @@ export function ApiURL(){
 
 
 /** Header config for axios API request
- * @param {string} type json | media, default is json
  * @param {string} token for token verification
+ * @param {string} type json | media, default is json
  */
-export function HeaderConfig(type, token){
+export function HeaderConfig(token, type){
     let val = ''
 
     if(!type || type === 'json'){
@@ -30,6 +31,20 @@ export function HeaderConfig(type, token){
             'Authorization': `Bearer ${token}`,
             'Content-Type': val
         }
+    }
+}
+
+/** Body config for axios API request 
+ * @param {object} body other payload object
+ * @param {boolean} refreshable pass true to allow refresh token if access token expires, false by default
+*/
+export function BodyConfig(body, refreshable){
+    const r = refreshable || false
+    
+    return {
+        key: key,
+        allowRt: r,
+        ...body
     }
 }
 
